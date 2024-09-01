@@ -8,8 +8,8 @@
 
 Camera::Camera(Display &pScr) :
     scr{pScr},
-    lastMouseX {mouse::x()},
-    lastMouseY {mouse::y()} {
+    lastMouseX {mouse::getX()},
+    lastMouseY {mouse::getY()} {
 
     posOffset = calcOffset(pitch, yaw, orbitRadius);
     view = glm::lookAt(focus + posOffset, focus, UP);
@@ -21,9 +21,9 @@ void Camera::moveFocus() {
 
     glm::vec3 dir {0.0f, 0.0f, 0.0f};
     if (scr.keyPressed(GLFW_KEY_A)) {
-        dir += right;
-    } if (scr.keyPressed(GLFW_KEY_D)) {
         dir -= right;
+    } if (scr.keyPressed(GLFW_KEY_D)) {
+        dir += right;
     } if (scr.keyPressed(GLFW_KEY_W)) {
         dir += UP;
     } if (scr.keyPressed(GLFW_KEY_S)) {
@@ -32,20 +32,21 @@ void Camera::moveFocus() {
 
     // dir is normalised so that the camera is always translated at a stable speed.
     // If it moved in both dimensions it would go faster.
+    // We have to make sure dir doesn't have a magnitude of 0 or normalisation won't work
     if (dir.x + dir.y + dir.z != 0.0f) focus += glm::normalize(dir) * realSpeed;
 }
 
 void Camera::look() {
-    double currentMouseX = mouse::x();
-    double currentMouseY = mouse::y();
+    double currentMouseX = mouse::getX();
+    double currentMouseY = mouse::getY();
 
     double xOffset = (currentMouseX - lastMouseX) * sensitivity;
     double yOffset = (lastMouseY - currentMouseY) * sensitivity;
 
     lastMouseX = currentMouseX;
     lastMouseY = currentMouseY;
-    std::cout << currentMouseX << std::endl;
-    std::cout << currentMouseY << std::endl;
+    std::cout << xOffset << std::endl;
+    std::cout << yOffset << std::endl;
 
     if (scr.mouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT)) {
         if (!looking) {
@@ -82,7 +83,6 @@ void Camera::update() {
     moveFocus();
     look();
     view = glm::lookAt(focus + posOffset, focus, UP);
-//    std::cout << "{" << view[0][0] << ", " << view[0][1] << ", " << view[0][2] << ", " << view[0][3] << "}" << std::endl;
 }
 
 glm::vec3 Camera::calcOffset(float pitch, float yaw, float radius) {

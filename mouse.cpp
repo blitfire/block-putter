@@ -3,8 +3,9 @@
 //
 
 #include "mouse.h"
+#include <iostream>
 
 void mouse::callback(GLFWwindow *window, double xpos, double ypos) {
-    Mouse::getMouse().x = xpos;
-    Mouse::getMouse().y = ypos;
+    mouse::getMouse().x = xpos;
+    mouse::getMouse().y = ypos;
 }

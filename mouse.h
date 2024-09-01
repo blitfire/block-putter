@@ -8,28 +8,25 @@
 #include "glad.h"
 #include <GLFW/glfw3.h>
 
-namespace {
-    class Mouse {
-    private:
-        Mouse() = default;
-    public:
-        double x, y;
+class mouse {
+private:
+    double x, y;
 
-        Mouse(const Mouse&) = delete;
-        Mouse &operator=(const Mouse&) = delete;
+    mouse() = default;
+    static mouse &getMouse() {
+        static mouse globMouse;
+        return globMouse;
+    }
+public:
 
-        static Mouse &getMouse() {
-            static Mouse globMouse;
-            return globMouse;
-        }
-    };
-}
+    mouse(const mouse&) = delete;
+    mouse &operator=(const mouse&) = delete;
 
-namespace mouse {
-    void callback(GLFWwindow *window, double xpos, double ypos);
+    static double getX() { return mouse::getMouse().x; }
+    static double getY() { return mouse::getMouse().y; }
 
-    inline double x() { return Mouse::getMouse().x; }
-    inline double y() { return Mouse::getMouse().y; }
-}
+    static void callback(GLFWwindow *window, double xpos, double ypos);
+};
+
 
 #endif //BUILDER_MOUSE_H
