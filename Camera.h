@@ -21,7 +21,7 @@ private:
     double speed {1.0};
     double sensitivity {0.1f};
 
-    float pitch {-45.0f}, yaw {-135.0f};
+    float pitch {0.0f}, yaw {-90.0f};
     double lastMouseX, lastMouseY;
     bool looking {false};
     // Distance between the camera and the focus

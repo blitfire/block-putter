@@ -15,6 +15,8 @@ add_executable(builder main.cpp
         glad.c
         mouse.h
         mouse.cpp
-        init.h)
+        init.h
+        BlockShader.cpp
+        BlockShader.h)
 find_package(glfw3 REQUIRED)
 target_link_libraries(builder glfw)

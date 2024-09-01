@@ -6,9 +6,7 @@
 #include "Display.h"
 #include <iostream>
 
-Display::Display(int pWidth, int pHeight) :
-    width{pWidth},
-    height{pHeight} {
+Display::Display() {
 
     GLFWmonitor *monitor = glfwGetPrimaryMonitor();
     const GLFWvidmode *mode = glfwGetVideoMode(monitor);
@@ -26,6 +24,9 @@ Display::Display(int pWidth, int pHeight) :
         std::cerr << "Failed to initialise GLAD." << std::endl;
         exit(1);
     }
+    glEnable(GL_DEPTH_TEST);
+
+    projection = glm::perspective(glm::radians(45.0f), (float)mode->width / (float)mode->height, 0.1f, 100.0f);
 }
 
 void Display::size_callback(GLFWwindow *window, int width, int height) {

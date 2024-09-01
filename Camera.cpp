@@ -32,7 +32,7 @@ void Camera::moveFocus() {
 
     // dir is normalised so that the camera is always translated at a stable speed.
     // If it moved in both dimensions it would go faster.
-    focus += glm::normalize(dir) * realSpeed;
+    if (dir.x + dir.y + dir.z != 0.0f) focus += glm::normalize(dir) * realSpeed;
 }
 
 void Camera::look() {
@@ -44,6 +44,8 @@ void Camera::look() {
 
     lastMouseX = currentMouseX;
     lastMouseY = currentMouseY;
+    std::cout << currentMouseX << std::endl;
+    std::cout << currentMouseY << std::endl;
 
     if (scr.mouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT)) {
         if (!looking) {
@@ -80,6 +82,7 @@ void Camera::update() {
     moveFocus();
     look();
     view = glm::lookAt(focus + posOffset, focus, UP);
+//    std::cout << "{" << view[0][0] << ", " << view[0][1] << ", " << view[0][2] << ", " << view[0][3] << "}" << std::endl;
 }
 
 glm::vec3 Camera::calcOffset(float pitch, float yaw, float radius) {
