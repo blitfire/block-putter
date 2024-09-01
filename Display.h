@@ -13,9 +13,10 @@
 
 class Display {
 private:
+    int width, height;
+
     GLfloat background[3] = {0.149f, 0.584f, 0.788f};
     GLFWwindow *window;
-    glm::mat4 projection;
 
     double lastFrame {0.0f}, deltaTime {0.0f};
 
@@ -28,7 +29,9 @@ public:
     void showCursor() { glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL); }
     [[nodiscard]] bool mouseButtonPressed(int button) const { return glfwGetMouseButton(window, button) == GLFW_PRESS; }
     [[nodiscard]] double getFrameDelta() const { return deltaTime; }
-    [[nodiscard]] const glm::mat4& getPerspective() const { return projection; }
+
+    [[nodiscard]] int getWidth() const { return width; }
+    [[nodiscard]] int getHeight() const { return height; }
 
     static void size_callback(GLFWwindow *window, int width, int height);
 };

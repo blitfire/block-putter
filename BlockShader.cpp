@@ -20,8 +20,8 @@ BlockShader::BlockShader() {
     try
     {
         // open files
-        vShaderFile.open("/home/george/CLionProjects/block-putter/vertex.glsl");
-        fShaderFile.open("/home/george/CLionProjects/block-putter/fragment.glsl");
+        vShaderFile.open("/home/george/CLionProjects/builder/vertex.glsl");
+        fShaderFile.open("/home/george/CLionProjects/builder/fragment.glsl");
         std::stringstream vShaderStream, fShaderStream;
         // read file's buffer contents into streams
         vShaderStream << vShaderFile.rdbuf();
@@ -40,19 +40,10 @@ BlockShader::BlockShader() {
 
     // Compile shaders
     unsigned int vertex, fragment;
-    const char * vShaderCode {vertexCode.c_str()};
-    const char * fShaderCode {fragmentCode.c_str()};
-//    vertex = compileShader(vertexCode, GL_VERTEX_SHADER);
-//    fragment = compileShader(fragmentCode, GL_FRAGMENT_SHADER);
-    vertex = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertex, 1, &vShaderCode, nullptr);
-    glCompileShader(vertex);
-//    checkCompileErrors(vertex, "VERTEX");
-    // fragment Shader
-    fragment = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragment, 1, &fShaderCode, nullptr);
-    glCompileShader(fragment);
-//    checkCompileErrors(fragment, "FRAGMENT");
+    vertex = compileShader(vertexCode, GL_VERTEX_SHADER);
+    //    checkCompileErrors(vertex, "VERTEX");
+    fragment = compileShader(fragmentCode, GL_FRAGMENT_SHADER);
+    //    checkCompileErrors(fragment, "FRAGMENT");
 
     // Link shaders
     id = glCreateProgram();

@@ -10,7 +10,9 @@ Display::Display() {
 
     GLFWmonitor *monitor = glfwGetPrimaryMonitor();
     const GLFWvidmode *mode = glfwGetVideoMode(monitor);
-    window = glfwCreateWindow(mode->width, mode->height, "Block Putter", monitor, nullptr);
+    width = mode->width;
+    height = mode->height;
+    window = glfwCreateWindow(width, height, "Block Putter", monitor, nullptr);
     if (window == nullptr) {
         std::cerr << "Failed to create window" << std::endl;
         exit(1);
@@ -25,8 +27,6 @@ Display::Display() {
         exit(1);
     }
     glEnable(GL_DEPTH_TEST);
-
-    projection = glm::perspective(glm::radians(45.0f), (float)mode->width / (float)mode->height, 0.1f, 100.0f);
 }
 
 void Display::size_callback(GLFWwindow *window, int width, int height) {

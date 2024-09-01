@@ -7,6 +7,7 @@
 
 #include "BlockShader.h"
 #include "glad.h"
+#include "Camera.h"
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -35,14 +36,14 @@ private:
             1, 5, 6,
             1, 2, 6,
             2, 6, 7,
-            2, 4, 7,
+            2, 3, 7,
             3, 7, 4,
             3, 0, 4
     };
 
     // Colour gets passed to the shader
     glm::vec4 colour;
-    glm::mat4 pos {1.0f};
+    glm::mat4 pos;
     const glm::mat4& projection;
 
     GLuint VAO, VBO, EBO;
@@ -51,7 +52,7 @@ private:
 public:
     Block(int x, int y, int z, const glm::vec4 &pColour, const glm::mat4 &pProj);
     void setColour(const glm::vec4& pColour) { colour = pColour; }
-    void render(const glm::mat4 &camView);
+    void render(const glm::mat4 &view);
 
     ~Block();
 };

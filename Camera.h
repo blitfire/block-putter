@@ -16,6 +16,7 @@ private:
 //    glm::vec3 pos {5.0f, 5.0f, 5.0f};
     glm::vec3 posOffset;
     glm::vec3 focus {0.0f, 0.0f, 0.0f};
+    glm::mat4 projection;
 
     static inline const glm::vec3 UP {0.0f, 1.0f, 0.0f};
     double speed {1.0};
@@ -37,6 +38,7 @@ public:
     explicit Camera(Display& pScr);
 
     [[nodiscard]] const glm::mat4& getView() const { return view; }
+    [[nodiscard]] const glm::mat4& getPerspective() const { return projection; }
 
     void update();
 };

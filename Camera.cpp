@@ -11,6 +11,10 @@ Camera::Camera(Display &pScr) :
     lastMouseX {mouse::getX()},
     lastMouseY {mouse::getY()} {
 
+    projection = glm::perspective(glm::radians(45.0f),
+                                  (float)scr.getWidth() / (float)scr.getHeight(),
+                                  0.0f,
+                                  100.0f);
     posOffset = calcOffset(pitch, yaw, orbitRadius);
     view = glm::lookAt(focus + posOffset, focus, UP);
 }
@@ -45,10 +49,9 @@ void Camera::look() {
 
     lastMouseX = currentMouseX;
     lastMouseY = currentMouseY;
-    std::cout << xOffset << std::endl;
-    std::cout << yOffset << std::endl;
 
     if (scr.mouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT)) {
+        // Ensures we only hide the cursor once, when the right mouse button is pressed.
         if (!looking) {
             scr.hideCursor();
             looking = true;
@@ -58,9 +61,9 @@ void Camera::look() {
 
         // Keeping yaw in the range just for accuracy's sake (might remove if I decide it's not necessary)
         if (yaw > 180.0f) {
-            yaw = -360.0f + yaw;
+            yaw -= 360.0f;
         } else if (yaw < -180.0f) {
-            yaw = 360.0f + yaw;
+            yaw += 360.0f;
         }
 
         // Keeping pitch in the right range. This is definitely necessary.
@@ -71,11 +74,10 @@ void Camera::look() {
         }
 
         posOffset = calcOffset(pitch, yaw, orbitRadius);
-    } else {
-        if (looking) {
-            scr.showCursor();
-            looking = false;
-        }
+    } else if (looking) {
+        // Re-enable the cursor when the right mouse button is lifted
+        scr.showCursor();
+        looking = false;
     }
 }
 
